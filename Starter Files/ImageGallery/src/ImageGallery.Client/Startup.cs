@@ -45,12 +45,14 @@ namespace ImageGallery.Client
                 opt.ResponseType = "code id_token";
                 opt.Scope.Add("openid");
                 opt.Scope.Add("profile");
+                opt.Scope.Add("address");
                 opt.SaveTokens = true;
                 opt.ClientSecret = "secret";
                 opt.GetClaimsFromUserInfoEndpoint = true;
                 opt.ClaimActions.Remove("amr");
                 opt.ClaimActions.DeleteClaim("sid");
                 opt.ClaimActions.DeleteClaim("idp");
+                //opt.ClaimActions.DeleteClaim("address");
             });
         }
 
