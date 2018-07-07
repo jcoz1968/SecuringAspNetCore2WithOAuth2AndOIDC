@@ -45,6 +45,7 @@ namespace ImageGallery.Client
                 opt.Scope.Add("profile");
                 opt.SaveTokens = true;
                 opt.ClientSecret = "secret";
+                opt.GetClaimsFromUserInfoEndpoint = true;
             });
         }
 
