@@ -1,4 +1,5 @@
 ﻿using ImageGallery.Client.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,8 +25,7 @@ namespace ImageGallery.Client
             // Add framework services.
             services.AddMvc();
 
-            // register an IHttpContextAccessor so we can access the current
-            // HttpContext in services by injecting it
+            // register an IHttpContextAccessor so we can access the current HttpContext in services by injecting it
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // register an IImageGalleryHttpClient
@@ -48,6 +48,9 @@ namespace ImageGallery.Client
                 opt.SaveTokens = true;
                 opt.ClientSecret = "secret";
                 opt.GetClaimsFromUserInfoEndpoint = true;
+                opt.ClaimActions.Remove("amr");
+                opt.ClaimActions.DeleteClaim("sid");
+                opt.ClaimActions.DeleteClaim("idp");
             });
         }
 
