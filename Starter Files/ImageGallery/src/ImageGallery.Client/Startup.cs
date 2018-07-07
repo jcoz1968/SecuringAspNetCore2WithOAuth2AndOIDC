@@ -28,6 +28,25 @@ namespace ImageGallery.Client
 
             // register an IImageGalleryHttpClient
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
+
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultScheme = "Cookies";
+                opt.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie("Cookies")
+            .AddOpenIdConnect("oidc", opt => 
+            {
+                opt.SignInScheme = "Cookies";
+                opt.Authority = "https://localhost:44379";
+                opt.ClientId = "imagegalleryclient";
+                opt.ResponseType = "code id_token";
+                opt.Scope.Add("openid");
+                opt.Scope.Add("profile");
+                opt.SaveTokens = true;
+                opt.ClientSecret = "secret";
+                opt.GetClaimsFromUserInfoEndpoint = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -41,6 +60,7 @@ namespace ImageGallery.Client
                 app.UseExceptionHandler("/Shared/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

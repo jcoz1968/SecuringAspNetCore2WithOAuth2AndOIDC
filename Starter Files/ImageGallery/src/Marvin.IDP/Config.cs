@@ -111,6 +111,7 @@ namespace Marvin.IDP
                     //AuthorizationCodeLifetime = ...
                     AccessTokenLifetime = 120,
                     AllowOfflineAccess = true,
+                    //AlwaysIncludeUserClaimsInIdToken = true,
                     //AbsoluteRefreshTokenLifetime = ...
                     UpdateAccessTokenClaimsOnRefresh = true,
                     RedirectUris = new List<string>()
