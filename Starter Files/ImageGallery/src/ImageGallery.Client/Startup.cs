@@ -52,13 +52,13 @@ namespace ImageGallery.Client
                 opt.Scope.Add("profile");
                 opt.Scope.Add("address");
                 opt.Scope.Add("roles");
+                opt.Scope.Add("imagegalleryapi");
                 opt.SaveTokens = true;
                 opt.ClientSecret = "secret";
                 opt.GetClaimsFromUserInfoEndpoint = true;
                 opt.ClaimActions.Remove("amr");
                 opt.ClaimActions.DeleteClaim("sid");
                 opt.ClaimActions.DeleteClaim("idp");
-                //opt.ClaimActions.DeleteClaim("address");
                 opt.ClaimActions.MapUniqueJsonKey("role", "role");
 
                 opt.TokenValidationParameters = new TokenValidationParameters

@@ -1,4 +1,5 @@
-﻿using ImageGallery.API.Entities;
+﻿using IdentityServer4.AccessTokenValidation;
+using ImageGallery.API.Entities;
 using ImageGallery.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,15 +20,17 @@ namespace ImageGallery.API
             Configuration = configuration;
         }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
              services.AddMvc();
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "https://localhost:44379/";
+                    options.ApiName = "imagegalleryapi";
+                });
         
-            // register the DbContext on the container, getting the connection string from
-            // appSettings (note: use this during development; in a production environment,
-            // it's better to store the connection string in an environment variable)
             var connectionString = Configuration["ConnectionStrings:imageGalleryDBConnectionString"];
             services.AddDbContext<GalleryContext>(o => o.UseSqlServer(connectionString));
 
@@ -35,7 +38,6 @@ namespace ImageGallery.API
             services.AddScoped<IGalleryRepository, GalleryRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, GalleryContext galleryContext)
         {
@@ -55,6 +57,8 @@ namespace ImageGallery.API
                     });
                 });
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 
