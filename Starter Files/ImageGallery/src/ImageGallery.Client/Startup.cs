@@ -46,6 +46,7 @@ namespace ImageGallery.Client
                 opt.Scope.Add("openid");
                 opt.Scope.Add("profile");
                 opt.Scope.Add("address");
+                opt.Scope.Add("roles");
                 opt.SaveTokens = true;
                 opt.ClientSecret = "secret";
                 opt.GetClaimsFromUserInfoEndpoint = true;
@@ -53,6 +54,7 @@ namespace ImageGallery.Client
                 opt.ClaimActions.DeleteClaim("sid");
                 opt.ClaimActions.DeleteClaim("idp");
                 //opt.ClaimActions.DeleteClaim("address");
+                opt.ClaimActions.MapUniqueJsonKey("role", "role");
             });
         }
 
